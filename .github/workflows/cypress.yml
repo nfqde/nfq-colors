@@ -37,7 +37,7 @@ jobs:
       - name: Cypress.io
         uses: cypress-io/github-action@v6
         with:
-          install-command: pnpm --no-frozen-lockfile
+          install-command: pnpm install
           config-file: cypress.config.ts
           component: true
           browser: electron
