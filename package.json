@@ -2,7 +2,7 @@
   "name": "@nfq/colors",
   "description": "",
   "author": ".NFQ | Christoph Kruppe",
-  "version": "0.0.1",
+  "version": "0.9.0",
   "keywords": [],
   "license": "MIT",
   "repository": {
@@ -19,7 +19,7 @@
     "path": "https://github.com/nfqde/nfq-npm-modules-template.git"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "exports": {
     ".": {
@@ -36,12 +36,18 @@
     "build": "rollup -c && pnpm tsc",
     "watch": "rollup -c -w",
     "deploy": "standard-version && git push --follow-tags origin main && pnpm publish",
+    "check:types": "tsc -p .",
     "lint": "pnpm eslint ./src --ext='.js' --ext='.jsx' --ext='.ts' --ext='.tsx'",
     "lint:report": "pnpm eslint --output-file eslint_report.json --format json --ext='.js, .jsx, .ts, .tsx' ./src",
     "merge:files": "pnpm mochawesome-merge \"./cypress/reports/mochawesome*.json\" > \"./cypress/reports/index.json\"",
     "prepublishOnly": "pnpm run build",
     "test": "pnpm cross-env CYPRESS_INTERNAL_BROWSER_CONNECT_TIMEOUT=300000 pnpm cypress run --component && pnpm merge:files",
     "test:open": "pnpm cross-env NODE_ENV=test pnpm cypress open --component"
+  },
+  "peerDependencies": {
+    "react": ">= 18",
+    "react-dom": ">= 18",
+    "styled-components": ">= 5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

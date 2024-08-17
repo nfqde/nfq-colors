@@ -22,6 +22,6 @@
     "target": "es5",
     "types": ["node", "cypress"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "globalTypes/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
