@@ -1,8 +1,8 @@
 <div id="top"></div>
 
-# Project name
+# @nfq/colors
 
-[![EsLint](https://github.com/nfqde/nfq-npm-modules-template/actions/workflows/eslint.yml/badge.svg)](https://github.com/nfqde/nfq-npm-modules-template/actions/workflows/eslint.yml)
+[![EsLint](https://github.com/nfqde/nfq-colors/actions/workflows/eslint.yml/badge.svg)](https://github.com/nfqde/nfq-colors/actions/workflows/eslint.yml)
 
 ---
 

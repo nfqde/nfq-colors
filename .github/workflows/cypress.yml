@@ -7,12 +7,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Node.JS 16.x
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - name: Node.JS 20.x
+        uses: actions/setup-node@v4
         with:
-          node-version: "16.x"
+          node-version: "20.x"
 
       - name: Set Tokens
         run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM }} && npm config set @gsap:registry https://npm.greensock.com/ && npm config set //npm.greensock.com/:_authToken ${{ secrets.GSAP }}
@@ -21,33 +20,42 @@ jobs:
         run: sudo npm -g i pnpm
 
       - name: Get pnpm cache directory path
-        id: pnpm-cache-dir-path
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+        id: pnpm-cache
+        run: |
+          echo "PNPM_STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
-          path: |
-            ${{ steps.pnpm-cache-dir-path.outputs.STORE_PATH }}
-            ~/.cache
+          path: ${{ env.PNPM_STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          restore-keys: ${{ runner.os }}-pnpm-store-
+
+      - name: Set up Cypress binary cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-cypress-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install Node Dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Cypress.io
-        uses: cypress-io/github-action@v2.9.7
+        uses: cypress-io/github-action@v6
         with:
-          config-file: cypress.json
-          browser: chrome
-          command: pnpm run test
-          install: false
-          headless: true
+          install-command: pnpm install
+          config-file: cypress.config.ts
+          component: true
+          browser: electron
+          headed: false
+        env:
+          NODE_ENV: test
+
+      - name: Merge Cypress Reports
+        run: npx mochawesome-merge ./cypress/reports/mocha*.json > ./cypress/reports/index.json
 
       - name: Cypress report action
-        uses: dmitry/cypress-report-action@1.0.0
+        uses: dmitry/cypress-report-action@v1
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           pathname: cypress/reports/index.json
