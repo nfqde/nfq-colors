@@ -5,17 +5,18 @@ import resolve from '@rollup/plugin-node-resolve';
 import cleaner from 'rollup-plugin-cleaner';
 
 // eslint-disable-next-line import/extensions
-import pkg from './package.json' assert { type: "json" };
+import pkg from './package.json' assert { type: 'json' };
 
 const globals = {};
 
 export default [
     {
         external: [...Object.keys({
+            ...pkg.dependencies,
             ...pkg.devDependencies,
             ...pkg.peerDependencies
         } || {})],
-        input: 'src/index.tsx',
+        input: 'src/index.ts',
         output: [
             {
                 exports: 'named',

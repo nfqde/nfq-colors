@@ -7,3 +7,5 @@ node_modules
 cypress/reports/
 tsconfig.tsbuildinfo
 types
+
+!src/types
