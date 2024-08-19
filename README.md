@@ -102,6 +102,8 @@ import {
 // Any global config file in your project. (e.g. src/utils/themes.ts)
 import {generateThemes, lighten} from '@nfq/colors';
 
+import type {GetThemeType} from '@nfq/colors';
+
 const BaseColors = {
     light: {
         primary: '#ffffff',
@@ -131,15 +133,21 @@ const Shadows = {
     } as const
 };
 
-const {
-    baseColors,
+export type BaseColorsType = GetThemeType<typeof BaseColors>;
+export const {
     globalCss,
-    shadowColors,
+    shadows,
     themeColors,
     themes
-} = generateThemes(BaseColors, DerivedColors, Shadows, 'light', 'dark');
+} = generateThemes({
+    baseColors: BaseColors,
+    derivedColors: DerivedColors,
+    shadows: Shadows,
+    defaultTheme: 'light',
+    prefersDarkTheme: 'dark'
+});
 ```
-The `generateThemes` function takes three to five arguments: `BaseColors`, `DerivedColors`, `Shadows`, `default theme` and `prefers dark theme`. The `BaseColors` object contains theme colors for any theme you like. The names of the themes are defined by its respective property Name. The `DerivedColors` object contains any additional colors that are derived from the base colors. The `Shadows` object contains the shadow styles for the light and dark themes. The `default theme` defines the default theme to use if none is explicitely set and `prefers dark theme` arguments specify the name of the theme used if the user has set the prefers-color-scheme media query to dark (if you dont want to react to the user preference you can specify `false` here). If you only want to use the colors and auto complete functionallity you can also remove the theme names and specify your colors directly in the `BaseColors`, `DerivedColors` and `Shadows` object. If you do so and none of your objects use an theme name you can omit the last two arguments.
+The `generateThemes` function takes one config argument look at the [Configuration](#configuration) part of the documentation. The `baseColors` option contains theme colors for any theme you like. The names of the themes are defined by its respective property Name. The `derivedColors` option contains any additional colors that are derived from the base colors. The `shadows` option contains the shadow styles for the light and dark themes. The `defaultTheme` defines the default theme to use if none is explicitely set. If you only want to use the colors and auto complete functionallity you can also remove the theme names and specify your colors directly in the `baseColors`, `derivedColors` and `shadows` options. If you do so and none of your objects use an theme name you can omit the other options.
 
 Themes can also only partially override each other. If you only want to override the primary color of the light theme you can do so like this:
 ```typescript
@@ -155,8 +163,9 @@ const BaseColors = {
 ```
 With this definition the secondary color of the dark theme will be the same as the light theme.
 
+The `BaseColorsType` type is a type that contains the colors of the base colors object. It is used to provide autocompletion and assurance that only these colors are used in the `darken`, `lighten` and `translucify` functions.
+
 The `generateThemes` function returns an object with the following properties:
-* `baseColors`: The base colors for the themes remapped to css vars.
 * `globalCss`: The global CSS styles you need to add to your global css so the css vars are defined.
 * `shadowColors`: The shadow styles for the themes remapped to css vars.
 * `themeColors`: The full (Base and Derived) theme colors for the themes remapped to css vars.
@@ -167,12 +176,12 @@ The `generateThemes` function returns an object with the following properties:
 ```typescript
 // in the file in which you create your Theme for the styled components ThemeProvider. (e.g. src/utils/globalStyles.ts)
 import {createGlobalStyle} from 'styled-components';
-import {globalCss, shadowColors, themeColors} from 'src/utils/themes.ts';
+import {globalCss, shadows, themeColors} from 'src/utils/themes.ts';
 
 import type {DefaultTheme} from 'styled-components';
 
 export const theme: DefaultTheme = {
-    boxShadows: shadowColors,
+    boxShadows: shadows,
     colors: themeColors
 };
 
@@ -180,7 +189,7 @@ export const GlobalStyle = createGlobalStyle`
     ${globalCss}
 `;
 ````
-The `globalCss` is the global css used to define your css vars and theme selectors these have to get injected to your global css. The `themeColors` are the available colors over all themes defined remapped to css vars and can be accessed with the styled components theme object later. The `shadowColors` are the available shadow styles over all themes defined remapped to css vars and can be accessed with the styled components theme object later.
+The `globalCss` is the global css used to define your css vars and theme selectors these have to get injected to your global css. The `themeColors` are the available colors over all themes defined remapped to css vars and can be accessed with the styled components theme object later. The `shadows` are the available shadow styles over all themes defined remapped to css vars and can be accessed with the styled components theme object later.
 
 ### (Optional) Typescript Autocompletion
 Create a file in your project that overrides the styled components DefaultTheme interface. For example an `styled.d.ts` file in your project folder.
@@ -192,17 +201,17 @@ import 'styled-components';
 // import HTMLAttributes from react
 import {HTMLAttributes} from 'react';
 
-import type {baseColors, shadowColors, themeColors, themes} from 'src/utils/themes.ts';
+import type {BaseColorsType, shadows, themeColors, themes} from 'src/utils/themes.ts';
 
 // and extend them!
 declare module 'styled-components' {
     export interface DefaultTheme {
-        boxShadows: typeof shadowColors;
+        boxShadows: typeof shadows;
         colors: typeof themeColors;
     }
 
     export interface NFQColors {
-        themeBaseColors: typeof baseColors;
+        themeBaseColors: BaseColorsType;
         themeFullColors: typeof themeColors;
     }
 }
@@ -379,13 +388,9 @@ With the data-nfq-theme attribute you can force an theme for the component and a
 
 ### generateThemes
 
-| Param            | type                                                 | required           | Description                                              |
-| ---------------- | ---------------------------------------------------- | :----------------: | -------------------------------------------------------- |
-| baseColors       | [ThemeUnion](#themeunion)                            | :white_check_mark: | The base colors for the themes                           |
-| derivedColors    | [ThemeUnion](#themeunion)                            | :white_check_mark: | The derived colors for the themes                        |
-| shadows          | [ThemeUnion](#themeunion)                            | :white_check_mark: | The shadow styles for the themes                         |
-| defaultTheme     | string (dynamically derived from your themes)        |                    | The default theme to use if none is explicitely set      |
-| prefersDarkTheme | string (dynamically derived from your themes)\|false |                    | The theme to use if the user prefers dark theme          |
+| Param  | type                          | required           | Description                       |
+| ------ | ----------------------------- | :----------------: | --------------------------------- |
+| config | [ConfigObject](#configobject) | :white_check_mark: | The config object for your themes |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -408,13 +413,27 @@ type ThemeConfig = {[key: string]: {[key: string]: string}};
 type NoThemeConfig = {[key: string]: string};
 type ThemeUnion = NoThemeConfig | ThemeConfig;
 ```
+
+### ConfigObject
+```typescript
+type ConfigObject = {
+    baseColors: ThemeUnion;
+    derivedColors: ThemeUnion;
+    shadows: ThemeUnion;
+    defaultTheme?: 'Union' | 'of' | 'your' | 'themes'; // Only optional if all color objects dont have an theme name
+    prefersDarkTheme?: 'Union' | 'of' | 'your' | 'themes';
+    highContrastTheme?: 'Union' | 'of' | 'your' | 'themes';
+    lowContrastTheme?: 'Union' | 'of' | 'your' | 'themes';
+    customContrastTheme?: 'Union' | 'of' | 'your' | 'themes';
+};
+```
 ---
 
 ## Utilities
 
 ### lighten utility
 
-```javascript
+```typescript
 const DemoComponent = styled.div`
     background: ${({theme}) => lighten(theme.colors.header, 50)};
 `;
@@ -426,7 +445,7 @@ This function is especially beneficial for generating hover or active states for
 
 ### darken utility
 
-```javascript
+```typescript
 const DemoComponent = styled.div`
     background: ${({theme}) => darken(theme.colors.header, 50)};
 `;
@@ -438,7 +457,7 @@ This function is particularly useful for generating hover or active states for U
 
 ### translucify utility
 
-```javascript
+```typescript
 const DemoComponent = styled.div`
     background: ${({theme}) => translucify(theme.colors.header, 50)};
 `;
@@ -448,6 +467,45 @@ The `translucify` function is a utility designed to make a given color transluce
 By leveraging the CSS `color-mix` function, it combines the provided color with a transparent color, resulting in a translucent version of the original color.
 This function is particularly useful for creating semi-transparent overlays, backgrounds, or other UI elements that require a touch of transparency.
 
+---
+
+## Configuration
+
+You can define some things about the Themes that can be generated. Here all options you can define:
+
+### baseColors
+
+The Base of your theme. You can define the colors for each theme you want to use. The theme names are the property names of the object. The colors are the property values of the theme objects. You can define as many themes as you like. If you dont want to generate themes you can define the color names directly instead of the theme names. The BaseColors is used as base for the DerivedColors.
+
+### derivedColors
+
+The Derived colors of your theme. You can define the colors for each theme you want to use. The theme names are the property names of the object. The colors are the property values of the theme objects. You can define as many themes as you like. The DerivedColors, as the name suggests, are for colors that are derived from the BaseColors through the darken, lighten and tranmslucify utilities. The baseColors and derivedColors are merged to one object for the themes.
+
+### shadows
+
+The shadow styles for the different themes. You can define the shadow styles for each theme you want to use. The theme names are the property names of the object. The shadow styles are the property values of the theme objects. You can define as many themes as you like. If you dont want to generate themes you can define the shadow names directly instead of the theme names.
+
+### defaultTheme
+
+Defines the default theme to use if none is explicitely set. If you dont define themes in any of your objects you must omit this option.
+
+### prefersDarkTheme
+
+Defines the theme to use if the user has `prefers-color-sheme: dark` active. You can omit this option if you dont want your themes css to not react to user preference. If you dont define themes in any of your objects you must omit this option. (This media query can be overridden by the data-nfq-theme attribute)
+
+### highContrastTheme
+
+Defines the theme to use if the user has `prefers-contrast: more` active. You can omit this option if you dont want your themes css to not react to user preference. If you dont define themes in any of your objects you must omit this option. (This media query can't be overridden by the data-nfq-theme attribute)
+
+### lowContrastTheme
+
+Defines the theme to use if the user has `prefers-contrast: less` active. You can omit this option if you dont want your themes css to not react to user preference. If you dont define themes in any of your objects you must omit this option. (This media query can't be overridden by the data-nfq-theme attribute)
+
+### customContrastTheme
+
+Defines the theme to use if the user has `prefers-contrast: custom` active. You can omit this option if you dont want your themes css to not react to user preference. If you dont define themes in any of your objects you must omit this option. (This media query can't be overridden by the data-nfq-theme attribute)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 ---
 
 ## Contributions

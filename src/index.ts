@@ -19,7 +19,7 @@ export type {GetThemeType} from './types/helperTypes';
  * @param args                     An object representing the base color definitions, which could be either flat or organized by theme.
  * @param args.baseColors          An object representing the base color definitions, which could be either flat or organized by theme.
  * @param args.derivedColors       An object representing derived color definitions, either flat or organized by theme.
- * @param args.shadowColors        An object representing shadow definitions, either flat or organized by theme.
+ * @param args.shadows             An object representing shadow definitions, either flat or organized by theme.
  * @param args.defaultTheme        An string representing the default theme to be applied. If not exiting in the color objects and therefore not provided, the CSS will apply colors, derived colors, and shadows globally.
  * @param args.prefersDarkTheme    A boolean or a theme name indicating whether to generate dark mode styles. If `false`, no dark mode styles are generated.
  * @param args.highContrastTheme   An object representing high contrast color definitions, either flat or organized by theme.
@@ -27,7 +27,6 @@ export type {GetThemeType} from './types/helperTypes';
  * @param args.customContrastTheme An object representing custom contrast color definitions, either flat or organized by theme.
  *
  * @returns An object containing:
- * - `baseColors`: CSS variables for the base colors.
  * - `globalCss`: Global CSS block that includes the generated CSS variables and theme-specific styles.
  * - `shadowColors`: CSS variables for the shadow definitions.
  * - `themeColors`: Combined CSS variables for both the base and derived colors.
@@ -50,11 +49,16 @@ export type {GetThemeType} from './types/helperTypes';
  *   dark: { boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.4)' }
  * };
  *
- * const themeConfig = generateThemes(colors, derivedColors, shadows, 'light', 'dark');
+ * const themeConfig = generateThemes({
+ *    baseColors: colors,
+ *    defaultTheme: 'light',
+ *    derivedColors: derivedColors,
+ *    shadows: shadows,
+ *    prefersDarkTheme: 'dark'
+ * });
  *
- * console.log(themeConfig.baseColors); // CSS variables for base colors
  * console.log(themeConfig.globalCss); // Global CSS including theme and dark mode styles
- * console.log(themeConfig.shadowColors); // CSS variables for shadows
+ * console.log(themeConfig.shadows); // CSS variables for shadows
  * console.log(themeConfig.themeColors); // CSS variables for both base and derived colors
  * console.log(themeConfig.themes); // The theme that was used ('light')
  * ```
@@ -67,20 +71,19 @@ export const generateThemes = <T extends ThemeUnion, D extends ThemeUnion, S ext
     highContrastTheme = undefined,
     lowContrastTheme = undefined,
     prefersDarkTheme = undefined,
-    shadowColors
+    shadows
 }: GenerateThemesProps<T, D, S>) => ({
-        baseColors: convertToThemeVars(baseColors),
         globalCss: generateThemeCss(
             baseColors,
             derivedColors,
-            shadowColors,
+            shadows,
             defaultTheme,
             prefersDarkTheme,
             highContrastTheme,
             lowContrastTheme,
             customContrastTheme
         ),
-        shadowColors: convertToThemeVars(shadowColors),
+        shadows: convertToThemeVars(shadows),
         themeColors: convertToThemeVars(baseColors, derivedColors),
         themes: defaultTheme
     });
