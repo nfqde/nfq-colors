@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/nfqde/nfq-colors/compare/v2.0.0...v2.0.1) (2024-08-19)
+
+
+### Bug Fixes
+
+* **Namings:** Fix some namings ([#13](https://github.com/nfqde/nfq-colors/issues/13)) ([fd5c197](https://github.com/nfqde/nfq-colors/commit/fd5c197c73ec591e75079fe1cd4f052293f81395))
+
 ## [2.0.0](https://github.com/nfqde/nfq-colors/compare/v1.0.0...v2.0.0) (2024-08-19)
 
 
