@@ -26,6 +26,7 @@
     * [Color Manipulation](#color-manipulation)
     * [Using Theme Colors in Components](#using-theme-colors-in-components)
     * [The Color component](#the-color-component)
+    * [Forcing an Theme](#forcing-an-theme)
 * [Props/Params](#propsparams)
     * [Color Component](#color-component)
     * [lighten](#lighten)
@@ -326,6 +327,22 @@ const MyComponent = () => {
 
 The `Color` component is a styled component that takes a color prop and applies the color to the text. It is used to apply colors to text in your components.
 Its an span with a color transition property automatically added. Also it provides you with type checking so you cant use an color in it thats not defined in your theme.
+
+### Forcing an Theme
+```typescript
+const MyComponent = () => {
+    const themeColors = useThemeColors();
+
+    return (
+        <div data-nfq-theme="light">
+            <p>
+                This text has different colors from our theme!
+            </p>
+        </div>
+    );
+};
+```
+With the data-nfq-theme attribute you can force an theme for the component and all its childs. This is useful if you want to use an theme for an component that is different from the current theme. Or you want to switch themes inbetween the components.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
