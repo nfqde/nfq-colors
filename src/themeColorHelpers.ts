@@ -1,9 +1,10 @@
+/* eslint-disable complexity */
 /* eslint-disable security/detect-object-injection */
 import {css} from 'styled-components';
 
 import {generateCssVariables, generateThemeCssSelector} from './utils';
 
-import type {GetThemeType, NoThemeConfig, ThemeArgs, ThemeConfig, ThemeUnion} from './types/helperTypes';
+import type {GetThemeType, NoThemeConfig, ThemeConfig, ThemeList, ThemeUnion} from './types/helperTypes';
 
 /**
  * Converts a set of color definitions into CSS variable references.
@@ -71,12 +72,14 @@ export const convertToThemeVars = <T extends ThemeUnion, D extends ThemeUnion>(
  * root theme, optionally creates a dark mode version using media queries, and can handle multiple theme variations
  * based on the provided themes.
  *
- * @param colors                An object representing the base color definitions, which could be either flat or organized by theme.
- * @param derivedColors         An object representing derived color definitions (e.g., lighter or darker shades), either flat or organized by theme.
- * @param shadows               An object representing shadow definitions, either flat or organized by theme.
- * @param args                  An array containing additional arguments, such as the default theme and dark theme preferences.
- * @param args.defaultTheme     An string representing the default theme to be applied. If not exiting in the color objects and therefore not provided, the CSS will apply colors, derived colors, and shadows globally.
- * @param args.prefersDarkTheme A boolean or a theme name indicating whether to generate dark mode styles. If `false`, no dark mode styles are generated.
+ * @param baseColors          An object representing the base color definitions, which could be either flat or organized by theme.
+ * @param derivedColors       An object representing derived color definitions (e.g., lighter or darker shades), either flat or organized by theme.
+ * @param shadowColors        An object representing shadow definitions, either flat or organized by theme.
+ * @param defaultTheme        An string representing the default theme to be applied. If not exiting in the color objects and therefore not provided, the CSS will apply colors, derived colors, and shadows globally.
+ * @param prefersDarkTheme    A boolean or a theme name indicating whether to generate dark mode styles. If `false`, no dark mode styles are generated.
+ * @param highContrastTheme   An object representing high contrast color definitions, either flat or organized by theme.
+ * @param lowContrastTheme    An object representing low contrast color definitions, either flat or organized by theme.
+ * @param customContrastTheme An object representing custom contrast color definitions, either flat or organized by theme.
  *
  * @returns A CSS block with variables for root theme, dark theme, and additional theme selectors if applicable.
  *
@@ -100,20 +103,22 @@ export const convertToThemeVars = <T extends ThemeUnion, D extends ThemeUnion>(
  * const css = generateThemeCss(colors, derivedColors, shadows, 'light', 'dark');
  * ```
  */
+// eslint-disable-next-line max-lines-per-function
 export const generateThemeCss = <T extends ThemeUnion, D extends ThemeUnion, S extends ThemeUnion>(
-    colors: T,
+    baseColors: T,
     derivedColors: D,
-    shadows: S,
-    ...args: ThemeArgs<T, D, S>
+    shadowColors: S,
+    defaultTheme?: ThemeList<T, D, S>,
+    prefersDarkTheme?: ThemeList<T, D, S>,
+    highContrastTheme?: ThemeList<T, D, S>,
+    lowContrastTheme?: ThemeList<T, D, S>,
+    customContrastTheme?: ThemeList<T, D, S>
 ) => {
-    const defaultTheme = args[0] ? args[0] : undefined;
-    const prefersDarkTheme = args[1] ? args[1] : false;
-
     if (!defaultTheme) {
         const themeColors = {
-            ...colors,
+            ...baseColors,
             ...derivedColors,
-            ...shadows
+            ...shadowColors
         };
 
         return css`
@@ -123,13 +128,13 @@ export const generateThemeCss = <T extends ThemeUnion, D extends ThemeUnion, S e
         `;
     }
 
-    const colorHasThemes = defaultTheme in colors;
+    const colorHasThemes = defaultTheme in baseColors;
     const derivedHasThemes = defaultTheme in derivedColors;
-    const shadowHasThemes = defaultTheme in shadows;
+    const shadowHasThemes = defaultTheme in shadowColors;
     const defaultThemeColors = {
-        ...(colorHasThemes ? (colors as ThemeConfig)[defaultTheme] : colors),
-        ...(derivedHasThemes ? (derivedColors as ThemeConfig)[defaultTheme] : derivedColors),
-        ...(shadowHasThemes ? (shadows as ThemeConfig)[defaultTheme] : shadows)
+        ...(colorHasThemes ? (baseColors as ThemeConfig)[defaultTheme as keyof ThemeConfig] : baseColors),
+        ...(derivedHasThemes ? (derivedColors as ThemeConfig)[defaultTheme as keyof ThemeConfig] : derivedColors),
+        ...(shadowHasThemes ? (shadowColors as ThemeConfig)[defaultTheme as keyof ThemeConfig] : shadowColors)
     };
 
     const rootCss = css`
@@ -139,15 +144,18 @@ export const generateThemeCss = <T extends ThemeUnion, D extends ThemeUnion, S e
     `;
 
     let darkCss = css``;
+    let moreContrast = css``;
+    let lessContrast = css``;
+    let customContrast = css``;
     let colorThemes = '';
     let derivedThemes = '';
     let shadowThemes = '';
 
     if (prefersDarkTheme) {
         const darkThemeColors = {
-            ...(colorHasThemes ? (colors as ThemeConfig)[prefersDarkTheme] : {}),
-            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[prefersDarkTheme] : {}),
-            ...(shadowHasThemes ? (shadows as ThemeConfig)[prefersDarkTheme] : {})
+            ...(colorHasThemes ? (baseColors as ThemeConfig)[prefersDarkTheme as keyof ThemeConfig] : {}),
+            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[prefersDarkTheme as keyof ThemeConfig] : {}),
+            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[prefersDarkTheme as keyof ThemeConfig] : {})
         };
 
         darkCss = css`
@@ -159,19 +167,70 @@ export const generateThemeCss = <T extends ThemeUnion, D extends ThemeUnion, S e
         `;
     }
 
+    if (highContrastTheme) {
+        const highContrastColors = {
+            ...(colorHasThemes ? (baseColors as ThemeConfig)[highContrastTheme as keyof ThemeConfig] : {}),
+            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[highContrastTheme as keyof ThemeConfig] : {}),
+            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[highContrastTheme as keyof ThemeConfig] : {})
+        };
+
+        moreContrast = css`
+            @media (prefers-contrast: more) {
+                :root:root {
+                    ${generateCssVariables(highContrastColors as NoThemeConfig)}
+                }
+            }
+        `;
+    }
+
+    if (lowContrastTheme) {
+        const highContrastColors = {
+            ...(colorHasThemes ? (baseColors as ThemeConfig)[lowContrastTheme as keyof ThemeConfig] : {}),
+            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[lowContrastTheme as keyof ThemeConfig] : {}),
+            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[lowContrastTheme as keyof ThemeConfig] : {})
+        };
+
+        lessContrast = css`
+            @media (prefers-contrast: more) {
+                :root:root {
+                    ${generateCssVariables(highContrastColors as NoThemeConfig)}
+                }
+            }
+        `;
+    }
+
+    if (customContrastTheme) {
+        const highContrastColors = {
+            ...(colorHasThemes ? (baseColors as ThemeConfig)[customContrastTheme as keyof ThemeConfig] : {}),
+            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[customContrastTheme as keyof ThemeConfig] : {}),
+            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[customContrastTheme as keyof ThemeConfig] : {})
+        };
+
+        customContrast = css`
+            @media (prefers-contrast: more) {
+                :root:root {
+                    ${generateCssVariables(highContrastColors as NoThemeConfig)}
+                }
+            }
+        `;
+    }
+
     if (colorHasThemes) {
-        colorThemes = generateThemeCssSelector(colors as ThemeConfig);
+        colorThemes = generateThemeCssSelector(baseColors as ThemeConfig);
     }
     if (derivedHasThemes) {
         derivedThemes = generateThemeCssSelector(derivedColors as ThemeConfig);
     }
     if (shadowHasThemes) {
-        shadowThemes = generateThemeCssSelector(shadows as ThemeConfig);
+        shadowThemes = generateThemeCssSelector(shadowColors as ThemeConfig);
     }
 
     return css`
         ${rootCss}
         ${darkCss}
+        ${moreContrast}
+        ${lessContrast}
+        ${customContrast}
         ${colorThemes}
         ${derivedThemes}
         ${shadowThemes}

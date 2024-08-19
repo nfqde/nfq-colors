@@ -1,7 +1,8 @@
 import {convertToThemeVars, generateThemeCss} from './themeColorHelpers';
 
-import type {ThemeArgs, ThemeUnion} from './types/helperTypes';
+import type {GenerateThemesProps, ThemeUnion} from './types/helperTypes';
 
+export {CustomContrastColors} from './utils';
 export {Color} from './components/Color';
 export {useThemeColors} from './hooks/useThemeColors';
 export {darken, lighten, translucify} from './colorManip';
@@ -15,12 +16,15 @@ export type {GetThemeType} from './types/helperTypes';
  * derived color, and shadow configurations into CSS variables, generates the corresponding global CSS for the themes,
  * and returns an object that can be used to apply and manage themes in an application.
  *
- * @param colors                An object representing the base color definitions, which could be either flat or organized by theme.
- * @param derivedColors         An object representing derived color definitions, either flat or organized by theme.
- * @param shadows               An object representing shadow definitions, either flat or organized by theme.
- * @param args                  An array containing additional arguments, such as the default theme and dark theme preferences.
- * @param args.defaultTheme     An string representing the default theme to be applied. If not exiting in the color objects and therefore not provided, the CSS will apply colors, derived colors, and shadows globally.
- * @param args.prefersDarkTheme A boolean or a theme name indicating whether to generate dark mode styles. If `false`, no dark mode styles are generated.
+ * @param args                     An object representing the base color definitions, which could be either flat or organized by theme.
+ * @param args.baseColors          An object representing the base color definitions, which could be either flat or organized by theme.
+ * @param args.derivedColors       An object representing derived color definitions, either flat or organized by theme.
+ * @param args.shadowColors        An object representing shadow definitions, either flat or organized by theme.
+ * @param args.defaultTheme        An string representing the default theme to be applied. If not exiting in the color objects and therefore not provided, the CSS will apply colors, derived colors, and shadows globally.
+ * @param args.prefersDarkTheme    A boolean or a theme name indicating whether to generate dark mode styles. If `false`, no dark mode styles are generated.
+ * @param args.highContrastTheme   An object representing high contrast color definitions, either flat or organized by theme.
+ * @param args.lowContrastTheme    An object representing low contrast color definitions, either flat or organized by theme.
+ * @param args.customContrastTheme An object representing custom contrast color definitions, either flat or organized by theme.
  *
  * @returns An object containing:
  * - `baseColors`: CSS variables for the base colors.
@@ -55,15 +59,28 @@ export type {GetThemeType} from './types/helperTypes';
  * console.log(themeConfig.themes); // The theme that was used ('light')
  * ```
  */
-export const generateThemes = <T extends ThemeUnion, D extends ThemeUnion, S extends ThemeUnion>(
-    colors: T,
-    derivedColors: D,
-    shadows: S,
-    ...args: ThemeArgs<T, D, S>
-) => ({
-        baseColors: convertToThemeVars(colors),
-        globalCss: generateThemeCss(colors, derivedColors, shadows, ...args),
-        shadowColors: convertToThemeVars(shadows),
-        themeColors: convertToThemeVars(colors, derivedColors),
-        themes: args[0]
+export const generateThemes = <T extends ThemeUnion, D extends ThemeUnion, S extends ThemeUnion>({
+    baseColors,
+    customContrastTheme = undefined,
+    defaultTheme = undefined,
+    derivedColors,
+    highContrastTheme = undefined,
+    lowContrastTheme = undefined,
+    prefersDarkTheme = undefined,
+    shadowColors
+}: GenerateThemesProps<T, D, S>) => ({
+        baseColors: convertToThemeVars(baseColors),
+        globalCss: generateThemeCss(
+            baseColors,
+            derivedColors,
+            shadowColors,
+            defaultTheme,
+            prefersDarkTheme,
+            highContrastTheme,
+            lowContrastTheme,
+            customContrastTheme
+        ),
+        shadowColors: convertToThemeVars(shadowColors),
+        themeColors: convertToThemeVars(baseColors, derivedColors),
+        themes: defaultTheme
     });

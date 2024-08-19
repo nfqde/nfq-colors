@@ -70,3 +70,47 @@ export const generateThemeCssSelector = (themeObject: ThemeConfig) => Object.ent
         }
     `
 ).join('\n');
+
+/**
+ * Generates a theme configuration object containing CSS variables, global CSS, and theme-specific properties.
+ */
+export enum CustomContrastColors {
+    /** Background of accented user interface controls. */
+    AccentColor = 'AccentColor',
+    /** Text of accented user interface controls. */
+    AccentColorText = 'AccentColorText',
+    /** Text of active links. */
+    ActiveText = 'ActiveText',
+    /** Base border color of controls. */
+    ButtonBorder = 'ButtonBorder',
+    /** Background color of controls. */
+    ButtonFace = 'ButtonFace',
+    /** Text color of controls. */
+    ButtonText = 'ButtonText',
+    /** Background of application content or documents. */
+    Canvas = 'Canvas',
+    /** Text color in application content or documents. */
+    CanvasText = 'CanvasText',
+    /** Background of input fields. */
+    Field = 'Field',
+    /** Text in input fields. */
+    FieldText = 'FieldText',
+    /** Text color for disabled items (e.g. A disabled control). */
+    GrayText = 'GrayText',
+    /** Background of selected items. */
+    Highlight = 'Highlight',
+    /** Text color of selected items. */
+    HighlightText = 'HighlightText',
+    /** Text of non-active, non-visited links. */
+    LinkText = 'LinkText',
+    /** Background of text that has been specially marked (such as by the HTML mark element). */
+    Mark = 'Mark',
+    /** Text that has been specially marked (such as by the HTML mark element). */
+    MarkText = 'MarkText',
+    /** Background of selected items, for example, a selected checkbox. */
+    SelectedItem = 'SelectedItem',
+    /** Text of selected items. */
+    SelectedItemText = 'SelectedItemText',
+    /** Text of visited links. */
+    VisitedText = 'VisitedText'
+}
