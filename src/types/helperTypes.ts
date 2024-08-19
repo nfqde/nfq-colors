@@ -52,5 +52,5 @@ type ThemeDefaultConfig<T extends ThemeUnion, D extends ThemeUnion, S extends Th
 export type GenerateThemesProps<T extends ThemeUnion, D extends ThemeUnion, S extends ThemeUnion> = {
     baseColors: T;
     derivedColors: D;
-    shadowColors: S;
+    shadows: S;
 } & ThemeDefaultConfig<T, D, S>;
