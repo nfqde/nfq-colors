@@ -27,13 +27,30 @@ type CheckDEmpty<D extends ThemeUnion, S extends ThemeUnion> = D extends Record<
 : D extends ThemeConfig
     ? keyof D
     : CheckSEmpty<S>;
-type ThemeList<T extends ThemeUnion, D extends ThemeUnion, S extends ThemeUnion>
+export type ThemeList<T extends ThemeUnion, D extends ThemeUnion, S extends ThemeUnion>
 = T extends Record<string, never>
     ? CheckDEmpty<D, S>
     : T extends ThemeConfig
         ? keyof T
         : CheckDEmpty<D, S>;
 
-type UndefinedToNever<T> = [T] extends [undefined] ? [] : [defaultTheme: T, prefersDarkTheme?: T | false];
-export type ThemeArgs<T extends ThemeUnion, D extends ThemeUnion, S extends ThemeUnion> = UndefinedToNever<ThemeList<T, D, S>>;
+type ThemeDefaultConfig<T extends ThemeUnion, D extends ThemeUnion, S extends ThemeUnion>
+= ThemeList<T, D, S> extends undefined ? {
+    customContrastTheme?: never;
+    defaultTheme?: never;
+    highContrastTheme?: never;
+    lowContrastTheme?: never;
+    prefersDarkTheme?: never;
+} : {
+    customContrastTheme?: ThemeList<T, D, S>;
+    defaultTheme: ThemeList<T, D, S>;
+    highContrastTheme?: ThemeList<T, D, S>;
+    lowContrastTheme?: ThemeList<T, D, S>;
+    prefersDarkTheme?: ThemeList<T, D, S>;
+};
 
+export type GenerateThemesProps<T extends ThemeUnion, D extends ThemeUnion, S extends ThemeUnion> = {
+    baseColors: T;
+    derivedColors: D;
+    shadowColors: S;
+} & ThemeDefaultConfig<T, D, S>;
