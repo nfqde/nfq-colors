@@ -26,7 +26,7 @@
     * [Color Manipulation](#color-manipulation)
     * [Using Theme Colors in Components](#using-theme-colors-in-components)
     * [The Color component](#the-color-component)
-    * [Forcing an Theme](#forcing-an-theme)
+    * [Forcing a Theme](#forcing-a-theme)
 * [Props/Params](#propsparams)
     * [Color Component](#color-component)
     * [lighten](#lighten)
@@ -147,9 +147,13 @@ export const {
     prefersDarkTheme: 'dark'
 });
 ```
-The `generateThemes` function takes one config argument look at the [Configuration](#configuration) part of the documentation. The `baseColors` option contains theme colors for any theme you like. The names of the themes are defined by its respective property Name. The `derivedColors` option contains any additional colors that are derived from the base colors. The `shadows` option contains the shadow styles for the light and dark themes. The `defaultTheme` defines the default theme to use if none is explicitely set. If you only want to use the colors and auto complete functionallity you can also remove the theme names and specify your colors directly in the `baseColors`, `derivedColors` and `shadows` options. If you do so and none of your objects use an theme name you can omit the other options.
+The `generateThemes` function takes one config argument. (Documentation: [Configuration](#configuration)). </br>
+The `baseColors` option contains theme colors for any theme you want. The names of the themes are defined by it's respective property name. </br>
+The `derivedColors` option contains any additional colors that are derived from the base colors. </br>
+The `shadows` option contains the shadow styles for the light and dark themes. </br>
+The `defaultTheme` defines the default theme to use if none is explicitely set. If you only need the colors and autocomplete feature, you can skip theme names. You can just add your colors in baseColors, derivedColors, and shadows. If none of your objects use a theme name, you can leave out the other options.
 
-Themes can also only partially override each other. If you only want to override the primary color of the light theme you can do so like this:
+Themes can also only partially override each other. If you want to override the primary color of the light theme you can do so like this:
 ```typescript
 const BaseColors = {
     light: {
@@ -161,7 +165,7 @@ const BaseColors = {
     } as const
 } as const;
 ```
-With this definition the secondary color of the dark theme will be the same as the light theme.
+With this definition the secondary color of the dark theme will be the same as in the light theme.
 
 The `BaseColorsType` type is a type that contains the colors of the base colors object. It is used to provide autocompletion and assurance that only these colors are used in the `darken`, `lighten` and `translucify` functions.
 
@@ -189,10 +193,12 @@ export const GlobalStyle = createGlobalStyle`
     ${globalCss}
 `;
 ````
-The `globalCss` is the global css used to define your css vars and theme selectors these have to get injected to your global css. The `themeColors` are the available colors over all themes defined remapped to css vars and can be accessed with the styled components theme object later. The `shadows` are the available shadow styles over all themes defined remapped to css vars and can be accessed with the styled components theme object later.
+The `globalCss` is the global css used to define your css vars and theme selectors. These have to get injected to your global css. </br>
+The `themeColors` include all the available colors across all themes. They get remapped to css vars and can be accessed with the styled components theme object later. </br>
+The `shadows` include all the available shadow styles across all themes. They get remapped to css vars and can be accessed with the styled components theme object later.
 
 ### (Optional) Typescript Autocompletion
-Create a file in your project that overrides the styled components DefaultTheme interface. For example an `styled.d.ts` file in your project folder.
+Create a file in your project that overrides the styled components DefaultTheme interface. For example a `styled.d.ts` file in your project folder.
 Add the following code to the file:
 
 ```typescript
@@ -223,7 +229,7 @@ declare module 'react' {
     }
 }
 ```
-With this configuration you have access to the `theme.colors` object and the `theme.boxShadows` object in your styled components and you have autocompletion for the theme names in your IDE. Also the data-nfq-theme attribute is added to the HTMLAttributes so you can use it in your components to override the used theme for this component.
+With this configuration you have access to the `theme.colors` object and the `theme.boxShadows` object in your styled components and you have autocompletion for the theme names in your IDE. Also the data-nfq-theme attribute is added to the HTMLAttributes so you can use it in your components to override current theme for this component.
 
 After that you can add the file to your includes in the tsconfig.json file like this:
 ```json
@@ -282,7 +288,7 @@ const darkerColor = darken(primaryColor, 20);
 const lighterColor = lighten(primaryColor, 20);
 const translucentColor = translucify(primaryColor, 50);
 ```
-These methods are mainly for use in your theme generation. They are used to generate derived colors from your base colors. The `darken` and `lighten` functions take a color and a percentage as arguments and return a darker or lighter shade of the color. The `translucify` function takes a color and a percentage as arguments and returns a translucent version of the color.
+These methods are mostly used for theme generation. They create derived colors from your base colors. The `darken` and `lighten` functions take a color and a percentage as arguments. They return a darker or lighter shade of the color. The `translucify` function also takes a color and a percentage as arguments. It returns a translucent version of the color. </br>
 More on that in the [Utilities](#utilities) section.
 
 ### Using Theme Colors in Components
@@ -300,7 +306,7 @@ const MyComponent = () => {
   );
 };
 ```
-The `useThemeColors` hook returns the theme colors for the current theme. You can use it to access the theme colors in your components. Its only an shortcut for:
+The `useThemeColors` hook returns the theme colors for the current theme. You can use it to access the theme colors in your components. It's only a shortcut for:
 ```typescript
 import {useTheme} from 'styled-components';
 
@@ -335,9 +341,9 @@ const MyComponent = () => {
 ```
 
 The `Color` component is a styled component that takes a color prop and applies the color to the text. It is used to apply colors to text in your components.
-Its an span with a color transition property automatically added. Also it provides you with type checking so you cant use an color in it thats not defined in your theme.
+It is a span element with a color transition property, which is automatically added. It also provides you with type checking, so you can't use a color in it that's not defined in your theme.
 
-### Forcing an Theme
+### Forcing a Theme
 ```typescript
 const MyComponent = () => {
     const themeColors = useThemeColors();
@@ -351,7 +357,7 @@ const MyComponent = () => {
     );
 };
 ```
-With the data-nfq-theme attribute you can force an theme for the component and all its childs. This is useful if you want to use an theme for an component that is different from the current theme. Or you want to switch themes inbetween the components.
+With the data-nfq-theme attribute you can force a theme on a html component and all it's children. This is useful if you want to use a theme for a component that is different from the current theme. Or you want to switch themes inbetween the components.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -439,8 +445,8 @@ const DemoComponent = styled.div`
 `;
 ```
 
-The `lighten` function is a utility that lightens a given color by a specified percentage.  
-It utilizes the CSS `color-mix` function to mix the provided color with white, achieving the desired lightening effect.
+The `lighten` function is a utility that lightens a given color by a specified percentage.  </br>
+It utilizes the CSS `color-mix` function to mix the provided color with white, achieving the desired lightening effect. </br>
 This function is especially beneficial for generating hover or active states for UI elements, ensuring consistent color manipulation across the application.
 
 ### darken utility
@@ -451,8 +457,8 @@ const DemoComponent = styled.div`
 `;
 ```
 
-The `darken` function is a utility that darkens a given color by a specified percentage.  
-It leverages the CSS `color-mix` function to mix the provided color with black, achieving the desired darkening effect.
+The `darken` function is a utility that darkens a given color by a specified percentage.  </br>
+It leverages the CSS `color-mix` function to mix the provided color with black, achieving the desired darkening effect. </br>
 This function is particularly useful for generating hover or active states for UI elements, ensuring consistent color manipulation across the application.
 
 ### translucify utility
@@ -463,15 +469,15 @@ const DemoComponent = styled.div`
 `;
 ```
 
-The `translucify` function is a utility designed to make a given color translucent by blending it with transparency.  
-By leveraging the CSS `color-mix` function, it combines the provided color with a transparent color, resulting in a translucent version of the original color.
+The `translucify` function is a utility designed to make a given color translucent by blending it with transparency.  </br>
+By leveraging the CSS `color-mix` function, it combines the provided color with a transparent color, resulting in a translucent version of the original color. </br>
 This function is particularly useful for creating semi-transparent overlays, backgrounds, or other UI elements that require a touch of transparency.
 
 ---
 
 ## Configuration
 
-You can define some things about the Themes that can be generated. Here all options you can define:
+You can define some things about the themes that can be generated. Here all options you can define:
 
 ### baseColors
 
