@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style, @typescript-eslint/no-unused-vars */
-type AllKeys<T> = T extends any ? keyof T : never;
-type PickType<T, K extends AllKeys<T>> = T extends {[k in K]?: any} ? T[K] : never;
-type Merge<T extends object> = {[k in AllKeys<T>]: PickType<T, k>};
 type MapToCssVars<T extends {[key: string]: string}> = {[Key in keyof T]: T[Key] | `var(--${string & Key})`};
-type MappedThemeVars<T extends {[key: string]: string}> = Merge<MapToCssVars<T>>;
+type MappedThemeVars<T extends {[key: string]: string}> = MapToCssVars<T>;
 
 export type ThemeConfig = {[key: string]: {[key: string]: string}};
 export type NoThemeConfig = {[key: string]: string};
