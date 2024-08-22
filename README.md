@@ -153,19 +153,24 @@ The `derivedColors` option contains any additional colors that are derived from 
 The `shadows` option contains the shadow styles for the light and dark themes. </br>
 The `defaultTheme` defines the default theme to use if none is explicitely set. If you only need the colors and autocomplete feature, you can skip theme names. You can just add your colors in baseColors, derivedColors, and shadows. If none of your objects use a theme name, you can leave out the other options.
 
-Themes can also only partially override each other. If you want to override the primary color of the light theme you can do so like this:
+Themes must have the same color key definitions as all other themes. To mitigate the process you can use an Shared color Object. This object is used as a base for all themes and then you can override some only partially. If you want to use the same color in all themes you can define it like this:
 ```typescript
+const SharedColors = {
+    primary: '#ffffff',
+    secondary: '#cccccc'
+} as const;
+
 const BaseColors = {
     light: {
-        primary: '#ffffff',
-        secondary: '#cccccc'
+        ...SharedColors
     } as const,
     dark: {
+        ...SharedColors,
         primary: '#000000'
     } as const
 } as const;
 ```
-With this definition the secondary color of the dark theme will be the same as in the light theme.
+With this definition the secondary color of the dark theme will be the same as in the light theme, and only the primary color will be different.
 
 The `BaseColorsType` type is a type that contains the colors of the base colors object. It is used to provide autocompletion and assurance that only these colors are used in the `darken`, `lighten` and `translucify` functions.
 
