@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.3](https://github.com/nfqde/nfq-colors/compare/v2.0.1...v2.0.3) (2024-08-22)
+
+
+### Bug Fixes
+
+* **README.md:** Update and correct description texts ([#14](https://github.com/nfqde/nfq-colors/issues/14)) ([2d545e9](https://github.com/nfqde/nfq-colors/commit/2d545e97a73aec1a4cd9ffc58125854418c98168))
+* **Types:** remove type merging to preserve comments ([#15](https://github.com/nfqde/nfq-colors/issues/15)) ([ad48437](https://github.com/nfqde/nfq-colors/commit/ad48437c94a771b20c93dcf81445d356b8b16944))
+
 ### [2.0.1](https://github.com/nfqde/nfq-colors/compare/v2.0.0...v2.0.1) (2024-08-19)
 
 
