@@ -8,6 +8,7 @@ export {useThemeColors} from './hooks/useThemeColors';
 export {darken, lighten, translucify} from './colorManip';
 export {convertToThemeVars, generateThemeCss} from './themeColorHelpers';
 export type {GetThemeType} from './types/helperTypes';
+export type {ThemeColor} from './components/Color';
 
 /**
  * Generates a theme configuration object containing CSS variables, global CSS, and theme-specific properties.
