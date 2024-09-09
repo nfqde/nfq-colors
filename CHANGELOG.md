@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.4](https://github.com/nfqde/nfq-colors/compare/v2.0.3...v2.0.4) (2024-09-09)
+
+
+### Bug Fixes
+
+* **Types:** export theme color type ([#18](https://github.com/nfqde/nfq-colors/issues/18)) ([036adeb](https://github.com/nfqde/nfq-colors/commit/036adebce52b5a1fc9adba96f5f3941731f2dd2e))
+
 ### [2.0.3](https://github.com/nfqde/nfq-colors/compare/v2.0.1...v2.0.3) (2024-08-22)
 
 
