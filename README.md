@@ -15,7 +15,7 @@
 ---
 > [!WARNING]
 >
-> This project switched over to @emotion/styled. As Styled-Components is in "Maintainance Mode".
+> This project switched over to @emotion/styled. As Styled-Components is in "Maintainance Mode".  
 > If you use styled-components you can use the version 2.0.0 of this package.
 
 ---
