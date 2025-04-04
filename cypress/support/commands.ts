@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import 'cypress/react18';
+import 'cypress/react';
 
 // ***********************************************
 // This example commands.ts shows you how to

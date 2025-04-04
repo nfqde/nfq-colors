@@ -1,4 +1,4 @@
-import type {NFQColors} from 'styled-components';
+import type {NFQColors} from '@emotion/react';
 
 type ThemeColors = NFQColors['themeBaseColors'][keyof NFQColors['themeBaseColors']];
 

@@ -9,7 +9,7 @@
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noImplicitAny": true,
     "paths": {},
     "resolveJsonModule": true,
@@ -20,7 +20,7 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "target": "es5",
-    "types": ["node", "cypress"]
+    "types": ["node", "cypress"],
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "globalTypes/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
