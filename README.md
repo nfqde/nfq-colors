@@ -13,6 +13,12 @@
 [![Cypress](https://github.com/nfqde/nfq-colors/actions/workflows/cypress.yml/badge.svg)](https://github.com/nfqde/nfq-colors/actions/workflows/cypress.yml)
 
 ---
+> [!WARNING]
+>
+> This project switched over to @emotion/styled. As Styled-Components is in "Maintainance Mode".
+> If you use styled-components you can use the version 2.0.0 of this package.
+
+---
 
 * [About the project](#about-the-project)
   * [Installation](#installation)
@@ -77,7 +83,8 @@ The following PeerDependencies are needed so the component does work:
 
 * react >= 18
 * react-dom >= 18
-* styled-components >= 5
+* @emotion/react >= 10,
+* @emotion/styled >= 10,
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

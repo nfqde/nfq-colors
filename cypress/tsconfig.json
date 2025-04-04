@@ -9,7 +9,7 @@
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noImplicitAny": true,
     "paths": {},
     "resolveJsonModule": true,
@@ -19,7 +19,7 @@
     "declarationDir": "types",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "target": "es5",
+    "target": "es6",
     "types": ["node", "cypress"]
   },
   "include": ["../cypress.config.ts", "**/*.ts", "**/*.tsx", "./support/index.d.ts"],
