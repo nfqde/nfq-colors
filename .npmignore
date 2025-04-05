@@ -22,6 +22,7 @@ cypress.config.ts
 horusec-config.json
 
 # builds
+.history
 tsconfig.json
 tsconfig.tsbuildinfo
 rollup.config.mjs
