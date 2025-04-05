@@ -1,6 +1,7 @@
-import {type NFQColors, styled} from 'styled-components';
+import styled from '@emotion/styled';
 
 import type {darken, lighten, translucify} from '../colorManip';
+import type {NFQColors} from '@emotion/react';
 
 type ThemeBaseColors = NFQColors['themeBaseColors'][keyof NFQColors['themeBaseColors']];
 type ThemeFullColors = NFQColors['themeFullColors'][keyof NFQColors['themeFullColors']];

@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 /* eslint-disable security/detect-object-injection */
-import {css} from 'styled-components';
+import {css} from '@emotion/react';
 
 import {generateCssVariables, generateThemeCssSelector} from './utils';
 
@@ -132,9 +132,9 @@ export const generateThemeCss = <T extends ThemeUnion, D extends ThemeUnion, S e
     const derivedHasThemes = defaultTheme in derivedColors;
     const shadowHasThemes = defaultTheme in shadowColors;
     const defaultThemeColors = {
-        ...(colorHasThemes ? (baseColors as ThemeConfig)[defaultTheme as keyof ThemeConfig] : baseColors),
-        ...(derivedHasThemes ? (derivedColors as ThemeConfig)[defaultTheme as keyof ThemeConfig] : derivedColors),
-        ...(shadowHasThemes ? (shadowColors as ThemeConfig)[defaultTheme as keyof ThemeConfig] : shadowColors)
+        ...(colorHasThemes ? (baseColors as ThemeConfig)[defaultTheme] : baseColors),
+        ...(derivedHasThemes ? (derivedColors as ThemeConfig)[defaultTheme] : derivedColors),
+        ...(shadowHasThemes ? (shadowColors as ThemeConfig)[defaultTheme] : shadowColors)
     };
 
     const rootCss = css`
@@ -153,9 +153,9 @@ export const generateThemeCss = <T extends ThemeUnion, D extends ThemeUnion, S e
 
     if (prefersDarkTheme) {
         const darkThemeColors = {
-            ...(colorHasThemes ? (baseColors as ThemeConfig)[prefersDarkTheme as keyof ThemeConfig] : {}),
-            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[prefersDarkTheme as keyof ThemeConfig] : {}),
-            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[prefersDarkTheme as keyof ThemeConfig] : {})
+            ...(colorHasThemes ? (baseColors as ThemeConfig)[prefersDarkTheme] : {}),
+            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[prefersDarkTheme] : {}),
+            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[prefersDarkTheme] : {})
         };
 
         darkCss = css`
@@ -169,9 +169,9 @@ export const generateThemeCss = <T extends ThemeUnion, D extends ThemeUnion, S e
 
     if (highContrastTheme) {
         const highContrastColors = {
-            ...(colorHasThemes ? (baseColors as ThemeConfig)[highContrastTheme as keyof ThemeConfig] : {}),
-            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[highContrastTheme as keyof ThemeConfig] : {}),
-            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[highContrastTheme as keyof ThemeConfig] : {})
+            ...(colorHasThemes ? (baseColors as ThemeConfig)[highContrastTheme] : {}),
+            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[highContrastTheme] : {}),
+            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[highContrastTheme] : {})
         };
 
         moreContrast = css`
@@ -185,9 +185,9 @@ export const generateThemeCss = <T extends ThemeUnion, D extends ThemeUnion, S e
 
     if (lowContrastTheme) {
         const highContrastColors = {
-            ...(colorHasThemes ? (baseColors as ThemeConfig)[lowContrastTheme as keyof ThemeConfig] : {}),
-            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[lowContrastTheme as keyof ThemeConfig] : {}),
-            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[lowContrastTheme as keyof ThemeConfig] : {})
+            ...(colorHasThemes ? (baseColors as ThemeConfig)[lowContrastTheme] : {}),
+            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[lowContrastTheme] : {}),
+            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[lowContrastTheme] : {})
         };
 
         lessContrast = css`
@@ -201,9 +201,9 @@ export const generateThemeCss = <T extends ThemeUnion, D extends ThemeUnion, S e
 
     if (customContrastTheme) {
         const highContrastColors = {
-            ...(colorHasThemes ? (baseColors as ThemeConfig)[customContrastTheme as keyof ThemeConfig] : {}),
-            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[customContrastTheme as keyof ThemeConfig] : {}),
-            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[customContrastTheme as keyof ThemeConfig] : {})
+            ...(colorHasThemes ? (baseColors as ThemeConfig)[customContrastTheme] : {}),
+            ...(derivedHasThemes ? (derivedColors as ThemeConfig)[customContrastTheme] : {}),
+            ...(shadowHasThemes ? (shadowColors as ThemeConfig)[customContrastTheme] : {})
         };
 
         customContrast = css`

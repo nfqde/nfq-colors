@@ -1,11 +1,11 @@
-import 'styled-components';
+import '@emotion/react';
 
 enum Colors {
     testColor = '#000000'
 }
 
-declare module 'styled-components' {
-    export interface DefaultTheme {
+declare module '@emotion/react' {
+    export interface Theme {
         colors: Colors;
     }
 

@@ -17,7 +17,7 @@ babel.config.js
 # testing
 .nyc_output
 coverage
-cypress
+cypress/
 cypress.config.ts
 horusec-config.json
 
@@ -25,6 +25,8 @@ horusec-config.json
 tsconfig.json
 tsconfig.tsbuildinfo
 rollup.config.mjs
+rollupPlugins
+globalTypes
 
 # package src
 pnpm-lock.yaml

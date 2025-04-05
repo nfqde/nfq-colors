@@ -1,6 +1,6 @@
-import {useTheme} from 'styled-components';
+import {useTheme} from '@emotion/react';
 
-import type {DefaultTheme} from 'styled-components';
+import type {Theme} from '@emotion/react';
 
 /**
  * Custom hook that provides access to the theme colors defined in the current theme.
@@ -22,7 +22,7 @@ import type {DefaultTheme} from 'styled-components';
  * };
  * ```
  */
-export const useThemeColors = (): DefaultTheme['colors'] => {
+export const useThemeColors = (): Theme['colors'] => {
     const theme = useTheme();
 
     return theme.colors;
