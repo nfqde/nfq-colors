@@ -139,5 +139,10 @@
   "dependencies": {
     "onecolor": "^4.1.0",
     "webskit-gradient-parser": "^1.0.14"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "cypress"
+    ]
   }
 }
