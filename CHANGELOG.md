@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/nfqde/nfq-colors/compare/v2.0.4...v3.0.0) (2025-04-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **@emotion:** Now its only compatible with @emotion/styled. Styled-components is deprecated!
+
+### Features
+
+* **@emotion:** Switch from styled-components to @emotion/styled ([#22](https://github.com/nfqde/nfq-colors/issues/22)) ([abdbc6c](https://github.com/nfqde/nfq-colors/commit/abdbc6cea853346e7104bc824ea637b0a075327e))
+
 ### [2.0.4](https://github.com/nfqde/nfq-colors/compare/v2.0.3...v2.0.4) (2024-09-09)
 
 
