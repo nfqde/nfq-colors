@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/nfqde/nfq-colors/compare/v3.0.0...v3.0.1) (2025-04-05)
+
+
+### Bug Fixes
+
+* **Bundle:** Remove unwanted files from bundle ([#23](https://github.com/nfqde/nfq-colors/issues/23)) ([7556dd9](https://github.com/nfqde/nfq-colors/commit/7556dd97aee63a4de5edfb0f14e139654633a55c))
+
 ## [3.0.0](https://github.com/nfqde/nfq-colors/compare/v2.0.4...v3.0.0) (2025-04-05)
 
 
