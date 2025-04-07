@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/nfqde/nfq-colors/compare/v3.0.1...v3.0.2) (2025-04-07)
+
+
+### Bug Fixes
+
+* **Build:** update build to stabilize generated id's ([#24](https://github.com/nfqde/nfq-colors/issues/24)) ([e172be7](https://github.com/nfqde/nfq-colors/commit/e172be7e449e0358a142108dffaec0bd92179c4e))
+
 ### [3.0.1](https://github.com/nfqde/nfq-colors/compare/v3.0.0...v3.0.1) (2025-04-05)
 
 
