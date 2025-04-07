@@ -8,7 +8,7 @@ module.exports = {
         '@babel/plugin-transform-typescript',
         '@babel/plugin-syntax-import-assertions',
         ['@emotion', {
-            autoLabel: 'dev-only',
+            autoLabel: 'never',
             cssPropOptimization: true,
             labelFormat: '[dirname]_[filename]__[local]',
             sourceMap: true
