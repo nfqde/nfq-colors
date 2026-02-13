@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/nfqde/nfq-colors/compare/v3.0.2...v3.1.0) (2026-02-13)
+
+
+### Features
+
+* **Color:** Add transition prop to color component, fix ThemeColors type. ([#26](https://github.com/nfqde/nfq-colors/issues/26)) ([41fecaf](https://github.com/nfqde/nfq-colors/commit/41fecaf6da88a190045072a2b3b71996e68712cb))
+
 ### [3.0.2](https://github.com/nfqde/nfq-colors/compare/v3.0.1...v3.0.2) (2025-04-07)
 
 
