@@ -20,36 +20,48 @@
 
 ---
 
-* [About the project](#about-the-project)
-  * [Installation](#installation)
-  * [PeerDependencies](#peerdependencies)
-* [Usage](#usage)
-    * [Generating Themes](#generating-themes)
-    * [Using the generated Themes in Styled Components](#using-the-generated-themes-in-styled-components)
-    * [(Optional) Typescript Autocompletion](#optional-typescript-autocompletion)
-    * [Personal Recommendation](#personal-recommendation)
-    * [Usage in Styled components](#usage-in-styled-components)
-    * [Color Manipulation](#color-manipulation)
-    * [Using Theme Colors in Components](#using-theme-colors-in-components)
-    * [The Color component](#the-color-component)
-    * [Forcing a Theme](#forcing-a-theme)
-* [Props/Params](#propsparams)
-    * [Color Component](#color-component)
-    * [lighten](#lighten)
-    * [darken](#darken)
-    * [translucify](#translucify)
-    * [generateThemes](#generatethemes)
-* [Types](#types)
-    * [BaseColor](#basecolor)
-    * [ThemeColor](#themecolor)
-    * [ThemeUnion](#themeunion)
-* [Utilities](#utilities)
-    * [lighten utility](#lighten-utility)
-    * [darken utility](#darken-utility)
-    * [translucify utility](#translucify-utility)
-* [Contributions](#contributions)
-* [License](#license)
-* [Questions](#questions)
+- [@nfq/colors](#nfqcolors)
+  - [About the project: ](#about-the-project-)
+    - [Installation](#installation)
+    - [PeerDependencies](#peerdependencies)
+  - [Usage](#usage)
+    - [Generating Themes](#generating-themes)
+    - [Using the generated Themes in Styled Components.](#using-the-generated-themes-in-styled-components)
+    - [(Optional) Typescript Autocompletion](#optional-typescript-autocompletion)
+    - [Personal Recommendation](#personal-recommendation)
+    - [Usage in Styled components](#usage-in-styled-components)
+    - [Color Manipulation](#color-manipulation)
+    - [Using Theme Colors in Components](#using-theme-colors-in-components)
+    - [The Color component](#the-color-component)
+    - [Forcing a Theme](#forcing-a-theme)
+  - [Props/Params](#propsparams)
+    - [Color Component](#color-component)
+    - [lighten](#lighten)
+    - [darken](#darken)
+    - [translucify](#translucify)
+    - [generateThemes](#generatethemes)
+  - [Types](#types)
+    - [BaseColor](#basecolor)
+    - [ThemeColor](#themecolor)
+    - [ThemeUnion](#themeunion)
+    - [ConfigObject](#configobject)
+  - [Utilities](#utilities)
+    - [lighten utility](#lighten-utility)
+    - [darken utility](#darken-utility)
+    - [translucify utility](#translucify-utility)
+  - [Configuration](#configuration)
+    - [baseColors](#basecolors)
+    - [derivedColors](#derivedcolors)
+    - [shadows](#shadows)
+    - [defaultTheme](#defaulttheme)
+    - [prefersDarkTheme](#prefersdarktheme)
+    - [highContrastTheme](#highcontrasttheme)
+    - [lowContrastTheme](#lowcontrasttheme)
+    - [customContrastTheme](#customcontrasttheme)
+  - [(back to top)](#back-to-top)
+  - [Contributions](#contributions)
+  - [License](#license)
+  - [Questions](#questions)
 
 ---
 
@@ -379,9 +391,10 @@ With the data-nfq-theme attribute you can force a theme on a html component and 
 
 ### Color Component
 
-| Prop   | type                      | required           | Description                                        |
-| ------ | ------------------------- | :----------------: | -------------------------------------------------- |
-| $color | [ThemeColor](#themecolor) | :white_check_mark: | The color that should be used for its text content |
+| Prop                | type                      | required           | Description                                               |
+| ------------------- | ------------------------- | :----------------: | --------------------------------------------------------- |
+| $color              | [ThemeColor](#themecolor) | :white_check_mark: | The color that should be used for its text content        |
+| $transitionDuration | string                    |                    | The duration of the color transition if the color changes |
 
 ### lighten
 
