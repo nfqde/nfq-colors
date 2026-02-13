@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style, @typescript-eslint/no-unused-vars */
-type MapToCssVars<T extends {[key: string]: string}> = {[Key in keyof T]: T[Key] | `var(--${string & Key})`};
+export type MapToCssVars<T extends {[key: string]: string}> = {[Key in keyof T]: T[Key] | `var(--${string & Key})`};
 type MappedThemeVars<T extends {[key: string]: string}> = MapToCssVars<T>;
 
 export type ThemeConfig = {[key: string]: {[key: string]: string}};

@@ -1,16 +1,21 @@
 import '@emotion/react';
-
-enum Colors {
-    testColor = '#000000'
-}
+import type {BaseColorsType, themeColors, themes} from './dummyTheme';
 
 declare module '@emotion/react' {
     export interface Theme {
-        colors: Colors;
+        colors: typeof themeColors;
     }
 
     export interface NFQColors {
-        themeBaseColors: Colors;
-        themeFullColors: Colors;
+        themeBaseColors: BaseColorsType;
+        themeFullColors: typeof themeColors;
+    }
+}
+
+declare module 'react' {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    interface HTMLAttributes<T> {
+        // extends React's HTMLAttributes
+        'data-nfq-theme'?: typeof themes;
     }
 }
