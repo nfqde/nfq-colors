@@ -7,7 +7,7 @@ export {Color} from './components/Color';
 export {useThemeColors} from './hooks/useThemeColors';
 export {darken, lighten, translucify} from './colorManip';
 export {convertToThemeVars, generateThemeCss} from './themeColorHelpers';
-export type {GetThemeType} from './types/helperTypes';
+export type {GetThemeType, MapToCssVars, NoThemeConfig, GenerateThemesProps, ThemeConfig, ThemeList, ThemeUnion} from './types/helperTypes';
 export type {ThemeColor} from './components/Color';
 
 /**
