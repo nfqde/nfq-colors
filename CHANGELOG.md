@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.4](https://github.com/nfqde/nfq-colors/compare/v3.1.3...v3.1.4) (2026-05-20)
+
+
+### Bug Fixes
+
+* **Types:** Export needed types ([#30](https://github.com/nfqde/nfq-colors/issues/30)) ([6fa687f](https://github.com/nfqde/nfq-colors/commit/6fa687f96b59e42cf3b0916ce98f1358f0557abb))
+
 ### [3.1.3](https://github.com/nfqde/nfq-colors/compare/v3.1.2...v3.1.3) (2026-02-13)
 
 ### [3.1.2](https://github.com/nfqde/nfq-colors/compare/v3.1.1...v3.1.2) (2026-02-13)
